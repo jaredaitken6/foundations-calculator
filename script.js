@@ -16,6 +16,8 @@ const calculatorDisplay = document.getElementById("calculator-display");
 let inputNum1;
 let inputNum2;
 let operator;
+let accumulator;
+let count = 0;
 
 buttonOne.addEventListener("click", function() {
     if (operator === undefined) {
@@ -38,22 +40,49 @@ buttonOne.addEventListener("click", function() {
     }
 });
 
-// +
-buttonPlus.addEventListener("click", function() {
-    if (!inputNum1 === undefined && !inputNum2 === undefined) {
-        
+function doMath() {
+    switch (operator) {
+  case '+':
+    if (accumulator === undefined) {
+        accumulator = Number(inputNum1) + Number(inputNum2);
+        calculatorDisplay.value = accumulator;
+        inputNum2 = undefined;
     } else {
         
+        accumulator += Number(inputNum2);
+        console.log(accumulator);
+        calculatorDisplay.value = accumulator;
+        inputNum2 = undefined;
     }
-    calculatorDisplay.value = '';
-    operator = '+';
+    break;
+  case 'editor':
+    console.log('Content editing access granted.');
+    break;
+  case 'viewer':
+    console.log('Read-only access granted.');
+    break;
+  default:
+    console.log('Access denied. Unknown role.');
+    }
+}
+
+// +
+buttonPlus.addEventListener("click", function() {
+    if (inputNum2 === undefined) {
+        calculatorDisplay.value = '';
+        operator = '+';
+    } else {
+        calculatorDisplay.value = '';
+        doMath();
+    }
 });
 
 // =
 buttonEquals.addEventListener("click", function() {
     switch (operator) {
   case '+':
-    calculatorDisplay.value = Number(inputNum1) + Number(inputNum2);
+    calculatorDisplay.value = '';
+    doMath();
     break;
   case 'editor':
     console.log('Content editing access granted.');
