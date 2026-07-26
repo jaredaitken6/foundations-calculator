@@ -14,12 +14,24 @@ const buttonMultiply = document.getElementById("multiply");
 const buttonDivide = document.getElementById("divide");
 const buttonEquals = document.getElementById("equals");
 const calculatorDisplay = document.getElementById("calculator-display");
+const buttonClear = document.getElementById("clear");
 let inputNum1;
 let inputNum2;
 let operator;
 let accumulator;
 
-// 3 + 3 + 4 - 2 error
+function clearCalculator() {
+ inputNum1 = undefined;
+ inputNum2 = undefined;
+ operator = undefined;
+ accumulator = undefined;
+ calculatorDisplay.value = '';
+}
+
+buttonClear.addEventListener("click", function() {
+    clearCalculator();
+});
+
 
 function operate() {
     switch (operator) {
@@ -28,8 +40,7 @@ function operate() {
         accumulator = Number(inputNum1) + Number(inputNum2);
         calculatorDisplay.value = accumulator;
         inputNum2 = undefined;
-    } else {
-        
+    } else {        
         accumulator += Number(inputNum2);
         calculatorDisplay.value = accumulator;
         inputNum2 = undefined;
@@ -60,19 +71,34 @@ function operate() {
     }
     break;
   case '/':
-    if (accumulator === undefined) {
-        accumulator = Number(inputNum1) / Number(inputNum2);
-        calculatorDisplay.value = accumulator;
-        inputNum2 = undefined;
+
+    if (!accumulator === '0' || !inputNum2 === '0') {
+        if (accumulator === undefined) {
+            accumulator = Number(inputNum1) / Number(inputNum2);        
+                if (accumulator.toString().length >= 10) {
+                    calculatorDisplay.value = 'Number too long'               
+                }       
+            inputNum2 = undefined;
+        } else {
+            accumulator /= Number(inputNum2);
+            if (accumulator.toString().length >= 10) {
+                calculatorDisplay.value = 'Number too long'            
+            } 
+            if (accumulator.toString().includes('.')) {
+                calculatorDisplay.value = accumulator.toFixed(2);
+            }        
+            inputNum2 = undefined;
+        }
     } else {
-        
-        accumulator /= Number(inputNum2);
-        calculatorDisplay.value = accumulator;
+        calculatorDisplay.value = 'not allowed';
+        inputNum1 = undefined;
         inputNum2 = undefined;
+        operator = undefined;
+        accumulator = undefined;
     }
     break;
-  default:
-    console.log('Access denied. Unknown role.');
+    default:
+        console.log('No numbers were inputted.');
     }
 }
 
