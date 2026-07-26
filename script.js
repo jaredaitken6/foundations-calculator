@@ -19,6 +19,7 @@ let inputNum2;
 let operator;
 let accumulator;
 
+// 3 + 3 + 4 - 2 error
 
 function operate() {
     switch (operator) {
@@ -83,6 +84,7 @@ buttonPlus.addEventListener("click", function() {
     } else {
         calculatorDisplay.value = '';
         operate();
+        operator = '+';
     }
 });
 
@@ -94,6 +96,7 @@ buttonMinus.addEventListener("click", function() {
     } else {
         calculatorDisplay.value = '';
         operate();
+        operator = '-';
     }
 });
 
@@ -105,6 +108,7 @@ buttonMultiply.addEventListener("click", function() {
     } else {
         calculatorDisplay.value = '';
         operate();
+        operator = 'x';
     }
 });
 
@@ -116,6 +120,7 @@ buttonDivide.addEventListener("click", function() {
     } else {
         calculatorDisplay.value = '';
         operate();
+        operator = '/';
     }
 });
 
